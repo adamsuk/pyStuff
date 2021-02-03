@@ -1,6 +1,9 @@
-import math import time
+import math 
+import time
 from queue import Queue 
 import multiprocessing 
+
+import random
 
 
 class MultiProcessThis:
@@ -19,17 +22,17 @@ class MultiProcessThis:
 
     def _var_into_q(self):
         for i in range(len(self.inp_vars)): 
-			          self.q.put(self.inp_vars[i])
-	
+            self.q.put(self.inp_vars[i])
+
     def _build_q(self):
         self.q = Queue()
         self._var_into_q() 
         if self.debug: print('waiting for queue to complete', self.q.qsize(), "tasks") 
         self.worker = [] 
-        for i in	range(0,self.q.qsize()):
+        for i in range(0,self.q.qsize()):
             value = self.q.get()
             if self.debug: print('value:',value)
-                self.worker.append(multiprocessing.Process(target=self.target, kwargs=value))
+            self.worker.append(multiprocessing.Process(target=self.target, kwargs=value))
 
     def _run_q(self):
         self.job = 0
@@ -56,8 +59,10 @@ class MultiProcessThis:
                 self.job += 1
 
 def TestFunc(i):
-     print("Completed job {}".format(i))
+    time.sleep(2*random.random())
+    print("Completed job {}".format(i))
 
 if __name__ == '__main__':
-    test_inps = [{'i':i} for i in range(0,10)] print(test_inps)
+    test_inps = [{'i':i} for i in range(0,10)]
+    print(test_inps)
     test = MultiProcessThis(test_inps, TestFunc)

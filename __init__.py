@@ -1,1 +1,1 @@
-from multi_proc import MultiProcessThis
+from .multi_proc import MultiProcessThis
